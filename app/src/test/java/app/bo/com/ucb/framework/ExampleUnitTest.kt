@@ -1,4 +1,4 @@
-package app.bo.com.ucb.cleanarchitecture2022
+package app.bo.com.ucb.framework
 
 import org.junit.Test
 
