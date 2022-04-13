@@ -2,6 +2,7 @@ package app.bo.com.ucb.cleanarchitecture2022
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import app.bo.com.ucb.data.MoviesRepository
 import app.bo.com.ucb.domain.Movie
@@ -20,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         mainViewModel = MainViewModel(GetPopularMovie(MoviesRepository(MovieDataSource(RetrofitBuilder), getString(R.string.api_key))))
 
         mainViewModel.model.observe(this, Observer(::updateUi))
+
+        mainViewModel.loadMovies()
+
     }
 
     private fun updateUi(model: MainViewModel.UiModel?) {
@@ -29,6 +33,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showList(list: List<Movie>) {
+        for ( i in list) {
+            Toast.makeText(this, i.title, Toast.LENGTH_LONG ).show()
+        }
         //recycler.adapter = MainAdapter(list)
     }
 }
