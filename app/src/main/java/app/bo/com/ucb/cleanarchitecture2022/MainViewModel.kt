@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import app.bo.com.ucb.domain.Movie
 import app.bo.com.ucb.usecases.GetPopularMovie
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val popularMovies: GetPopularMovie): ScopedViewModel() {
@@ -19,9 +20,8 @@ class MainViewModel(private val popularMovies: GetPopularMovie): ScopedViewModel
         class Content(val movies: List<Movie>) : UiModel()
     }
     fun loadMovies() {
-        launch {
-            _model.value = UiModel.Content(popularMovies.invoke())
-        }
-    }
+        launch(Dispatchers.IO) {
+            _model.postValue(UiModel.Content(popularMovies.invoke()))
+    }}
 }
 

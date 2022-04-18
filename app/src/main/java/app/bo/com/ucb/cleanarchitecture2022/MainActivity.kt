@@ -1,6 +1,5 @@
 package app.bo.com.ucb.cleanarchitecture2022
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -9,21 +8,19 @@ import app.bo.com.ucb.domain.Movie
 import app.bo.com.ucb.framework.MovieDataSource
 import app.bo.com.ucb.framework.RetrofitBuilder
 import app.bo.com.ucb.usecases.GetPopularMovie
+import org.koin.androidx.scope.ScopeActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
 
-    lateinit var mainViewModel: MainViewModel
+class MainActivity : ScopeActivity() {
 
+    private val mainViewModel: MainViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = MainViewModel(GetPopularMovie(MoviesRepository(MovieDataSource(RetrofitBuilder), getString(R.string.api_key))))
-
         mainViewModel.model.observe(this, Observer(::updateUi))
-
         mainViewModel.loadMovies()
-
     }
 
     private fun updateUi(model: MainViewModel.UiModel?) {
